@@ -4,7 +4,7 @@ import os
 import re
 import urllib
 
-from flask import (Flask, flash, Markup, redirect, render_template, request, Response, session, url_for)
+from flask import (Flask, flash, Markup, redirect, render_template, request, Response, session, url_for, send_from_directory)
 from markdown import markdown
 from markdown.extensions.codehilite import CodeHiliteExtension
 from markdown.extensions.extra import ExtraExtension
@@ -251,6 +251,11 @@ def index():
         query,
         search=search_query,
         check_bounds=False)
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 @app.route('/about')
 def about():
