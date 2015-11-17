@@ -157,6 +157,7 @@ class Entry(flask_db.Model):
         # search our entries.
         try:
             fts_entry = FTSEntry.get(FTSEntry.entry_id == self.id)
+            return jsonify(result={"status": 200})
         except FTSEntry.DoesNotExist:
             fts_entry = FTSEntry(entry_id=self.id)
             force_insert = True
@@ -252,7 +253,7 @@ def index():
         search=search_query,
         check_bounds=False)
 
-@app.route('/favicon.ico')
+@app.route('/favicon.ico/')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
