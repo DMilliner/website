@@ -35,7 +35,7 @@
     {% block extra_head %}{% endblock %}
 
     <!-- Link to Font Awesome -->
-    <link rel="stylesheet" href="/static/css/font-awesome.css">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
 
     <!-- CSS -->
     <link rel="stylesheet" type=text/css href="{{ url_for('static', filename='css/simplegrid.css') }}">
@@ -43,11 +43,11 @@
     <link rel="stylesheet" type=text/css href="{{ url_for('static', filename='css/sunburst.css') }}">
     
     <!-- JS -->
-    <script href="{{ url_for('static', filename='js/jquery-1.11.0.min.js') }}" type="text/javascript"></script>
+    <script src="http://code.jquery.com/jquery.js"></script>
     <script href="{{ url_for('static', filename='js/bootstrap.min.js') }}" type="text/javascript"></script>
 
-    <!-- JS pretify code snippets-->
-    <script type="text/javascript" src="{{ url_for('static', filename='js/run_prettify.js') }}"></script>
+    <!-- JS pretify code snippets
+    <script type="text/javascript" src="{{ url_for('static', filename='js/run_prettify.js') }}"></script>-->
     <!-- <pre class="prettyprint"></pre> -->
 
 
