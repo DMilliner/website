@@ -1,20 +1,122 @@
-{% extends "layout.html" %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Happy Island</title>
+    <meta charset="utf-8">
 
-{% block content_title %}{% if search %}Search "{{ search }}"{% endif %}{% endblock %}
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon/favicon.ico') }}">
+    <link rel="icon" sizes="16x16 32x32 64x64" href="{{ url_for('static', filename='favicon/favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="196x196" href="{{ url_for('static', filename='favicon/favicon-192.png') }}">
+    <link rel="icon" type="image/png" sizes="160x160" href="{{ url_for('static', filename='favicon/favicon-160.png') }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ url_for('static', filename='favicon/favicon-96.png') }}">
+    <link rel="icon" type="image/png" sizes="64x64" href="{{ url_for('static', filename='favicon/favicon-64.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon/favicon-32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon/favicon-16.png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='favicon/favicon-57.png') }}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ url_for('static', filename='favicon/favicon-114.png') }}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ url_for('static', filename='favicon/favicon-72.png') }}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ url_for('static', filename='favicon/favicon-144.png') }}">
+    <link rel="apple-touch-icon" sizes="60x60" href="/static/favicon/favicon-60.png') }}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ url_for('static', filename='favicon/favicon-120.png') }}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ url_for('static', filename='favicon/favicon-76.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ url_for('static', filename='favicon/favicon-152.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='favicon/favicon-180.png') }}">
+    <meta name="msapplication-TileColor" content="#FFFFFF">
+    <meta name="msapplication-TileImage" content="/static/favicon/favicon-144.png') }}">
+    <meta name="msapplication-config" content="/static/favicon/browserconfig.xml">
 
-{% block content %}
-  {% for entry in object_list %}
-    {% if search %}
-      {% set entry = entry.entry %}
-    {% endif %}
-    <h3>
-      <a href="{% if entry.published %}{{ url_for('detail', slug=entry.slug) }}{% else %}{{ url_for('edit', slug=entry.slug) }}{% endif %}">
-        {{ entry.title }}
-      </a>
-    </h3>
-    <p>Created {{ entry.timestamp.strftime('%m/%d/%Y at %G:%I%p') }}</p>
-  {% else %}
-    <p>No entries have been created yet.</p>
-  {% endfor %}
-  {% include "includes/pagination.html" %}
-{% endblock %}
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/blog.min.css') }}"/>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/hilite.css') }}"/>
+    {% block extra_head %}{% endblock %}
+
+    <!-- Link to Font Awesome -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" type=text/css href="{{ url_for('static', filename='css/simplegrid.css') }}">
+    <link rel="stylesheet" type=text/css href="{{ url_for('static', filename='css/customStyle.css') }}">
+    <link rel="stylesheet" type=text/css href="{{ url_for('static', filename='css/sunburst.css') }}">
+    
+    <!-- JS -->
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <script href="{{ url_for('static', filename='js/bootstrap.min.js') }}" type="text/javascript"></script>
+
+    <!-- JS pretify code snippets
+    <script type="text/javascript" src="{{ url_for('static', filename='js/run_prettify.js') }}"></script>-->
+    <!-- <pre class="prettyprint"></pre> -->
+
+
+    <!-- WYSIWYG -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/tinymce/tinymce.min.js') }}"></script>
+    <script type="text/javascript">
+    tinymce.init({
+        selector: "textarea",
+        plugins: [
+            "advlist autolink lists link image charmap print preview anchor",
+            "searchreplace visualblocks code fullscreen",
+            "insertdatetime media table contextmenu paste"
+        ],
+        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+    });
+    </script>
+
+    {% block extra_scripts %}{% endblock %}
+
+  </head>
+
+  <body>
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="{{ url_for('index') }}">Happy Island</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            {% if session.logged_in %}
+              <li><a href="{{ url_for('drafts') }}">Drafts</a></li>
+              <li><a href="{{ url_for('create') }}">Create</a></li>
+              <li><a href="{{ url_for('logout') }}">Log out</a></li>
+            {% endif %}
+              <li><a href="{{ url_for('projects') }}">Projects</a></li>
+              <li><a href="{{ url_for('about') }}">About</a></li>
+            </div>
+            {% block extra_header %}{% endblock %}
+          </ul>
+          {% block search_bar %}
+            <form action="{{ url_for('index') }}" class="navbar-form navbar-right" id="search-form" method="get" role="search">
+              <div class="form-group">
+                <input class="form-control" name="q" placeholder="Search" type="text" value="{% if search %}{{ search }}{% endif %}">
+              </div>
+            </form>
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      {% for category, message in get_flashed_messages(with_categories=true) %}
+        <div class="alert alert-{{ category }} alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <p>{{ message }}</p>
+        </div>
+      {% endfor %}
+
+      {% block page_header %}
+        <div class="page-header">
+          <h1>{% block content_title %}{% endblock %}</h1>
+        </div>
+      {% endblock %}
+
+      {% block content %}{% endblock %}
+      </br>
+      <footer id="foot">
+        <p>Made by <a href="http://twitter.com/dmilliner">@dfmilliner</a>&copy;</p>
+      </footer>
+    </div>
+  </body>
+</html>
