@@ -1,0 +1,5 @@
+beautifulsoup4==4.6.0
+Flask==0.12.1
+Markdown==2.6.8
+micawber==0.3.4
+peewee==2.10.1
